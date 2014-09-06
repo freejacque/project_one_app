@@ -27,14 +27,15 @@ class App < Sinatra::Base
   ########################
 
   get('/') do
-    if "user_password" == "password"
-    redirect('/home')
-    else
-      redirect('/password_error')
+
     render(:erb, :index)
   end
 
   get('/password_error') do
+    render(:erb, :password_error)
+  end
 
+  get('/sign_up') do
+    render(:erb, :sign_up)
   end
 end

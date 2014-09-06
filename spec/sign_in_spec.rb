@@ -27,7 +27,7 @@ describe("Sign in page") do
     it("has a link to sign up for an account") do
       expect(page).to have_content("If you don’t have an account sign up here.")
       click_on "sign up"
-      expect(page).to have_content("profile pic url")
+      expect(page).to have_content("profile pic url:")
     end
 
     it("allows the user to sign in using a google account") do
