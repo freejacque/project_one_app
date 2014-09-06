@@ -37,14 +37,14 @@ class App < Sinatra::Base
   ########################
 
   get('/') do
-    # binding.pry
-    # if
-      # base_url = "https://accounts.google.com/o/oauth2/auth?"
-      # scope = email%20profile
-      # code  = params[:code]
-      # state = SecureRandom.urlsafe_base64
-      # session[:state] = state
-      # @url  = "#{base_url}scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&response_type=#{code}&client_id=#{CLIENT_ID}&approval_prompt=auto"
+    binding.pry
+    if
+      base_url = "https://accounts.google.com/o/oauth2/auth?"
+      scope = email%20profile
+      code  = params[:code]
+      state = SecureRandom.urlsafe_base64
+      session[:state] = state
+      @url  = "#{base_url}scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&response_type=#{code}&client_id=#{CLIENT_ID}&approval_prompt=auto"
     render(:erb, :index)
   end
 
@@ -63,23 +63,23 @@ class App < Sinatra::Base
   end
 
   get('/oauth_callback') do
-    # code  = params[:code]
-    # #send a post
-    # if session[:state] == params[:state]
-    #   #send a post
-    # response = HTTParty.post("https://www.googleapis.com/apiName/apiVersion/resourcePath?parameters",
-    #             :body => {
-    #             client_id: CLIENT_ID,
-    #             client_secret: CLIENT_SECRET,
-    #             code: code,
-    #             redirect_uri: CALLBACK_URL,
-    #             },
-    #             :headers => {
-    #               "Accept" => "application/json",
-    #             })
-    #   session[:access_token] = response[:access_token]
-    # end
-    # redirect to('/')
+    code  = params[:code]
+    #send a post
+    if session[:state] == params[:state]
+      #send a post
+    response = HTTParty.post("https://www.googleapis.com/apiName/apiVersion/resourcePath?parameters",
+                :body => {
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                code: code,
+                redirect_uri: CALLBACK_URL,
+                },
+                :headers => {
+                  "Accept" => "application/json",
+                })
+      session[:access_token] = response[:access_token]
+    end
+    redirect to('/')
   end
 
   get('/password_error') do
