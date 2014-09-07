@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'httparty'
 require 'pry'
 
 
@@ -30,27 +31,25 @@ class App < Sinatra::Base
   EMAIL_ADDRESS = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d@developer.gserviceaccount.com"
   CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
 
-
-
   ########################
   # Routes
   ########################
 
   get('/') do
-    binding.pry
-    if
-      base_url = "https://accounts.google.com/o/oauth2/auth?"
-      scope = email%20profile
-      code  = params[:code]
-      state = SecureRandom.urlsafe_base64
+    if "google_account"
+      base_url        = "https://accounts.google.com/o/oauth2/auth"
+      response_type   = "code"
+      scope           = "email_profile".gsub('_','%20')
+      code            = params[:code]
+      state           = SecureRandom.urlsafe_base64
       session[:state] = state
-      @url  = "#{base_url}scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&response_type=#{code}&client_id=#{CLIENT_ID}&approval_prompt=auto"
-    render(:erb, :index)
+      @url            = "#{base_url}?response_type=#{response_type}&scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&client_id=#{CLIENT_ID}&approval_prompt=auto"
+    end
+      render(:erb, :index)
   end
 
   post('/') do
     # if
-
 
     # else
       if params[:user_password] == "password"
@@ -58,28 +57,30 @@ class App < Sinatra::Base
       else
           redirect('/password_error')
       end
-      render(:erb, :home)
+      render(:erb, :index)
     # end
   end
 
   get('/oauth_callback') do
     code  = params[:code]
     #send a post
-    if session[:state] == params[:state]
+    # if params[:state] == session[:state]
       #send a post
-    response = HTTParty.post("https://www.googleapis.com/apiName/apiVersion/resourcePath?parameters",
+    response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
                 :body => {
+                code: code,
                 client_id: CLIENT_ID,
                 client_secret: CLIENT_SECRET,
-                code: code,
                 redirect_uri: CALLBACK_URL,
+                grant_type: "authorization_code",
                 },
                 :headers => {
+                  "Content-Type" => "application/x-www-form-urlencoded",
                   "Accept" => "application/json",
                 })
       session[:access_token] = response[:access_token]
-    end
-    redirect to('/')
+    # end
+    redirect to('/home')
   end
 
   get('/password_error') do

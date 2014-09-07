@@ -35,10 +35,14 @@ describe("Sign in page") do
     end
 
     it("allows the user to sign in using a google account") do
-      click_on "google account"
+      click_on 'google account'
+      fill_in "email", with: "jwillchem@gmail.com"
+      fill_in "Passwd", with: ""
+      click_on 'sign in'
+      click_on 'accept'
       # other code
       expect(page).to have_content("Welcome to Critique-It!")
     end
-  end
+  end #context
 
 end #describe
