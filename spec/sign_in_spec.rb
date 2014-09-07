@@ -34,9 +34,9 @@ describe("Sign in page") do
       expect(page).to have_content("sign in using your google account")
     end
 
-    it("allows the user to sign in using a google account") do
+    it("allows the user to sign in using a google account"), :js => true do
       click_on 'google account'
-      fill_in "email", with: "jwillchem@gmail.com"
+      fill_in "email", with: ""
       fill_in "Passwd", with: ""
       click_on 'sign in'
       click_on 'accept'
