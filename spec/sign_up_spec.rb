@@ -18,7 +18,7 @@ describe("Sign up page") do
 
     it("pushes user information into redis") do
       user = $redis.get("users:#{0}")
-      @user_1 = JSON.parse(user)
+      @users = JSON.parse(user)
       expect(@user_1[:user_id]).to eq("test_user")
     end
   end

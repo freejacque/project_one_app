@@ -1,6 +1,7 @@
 require 'pry'
 
-describe("Sign in page") do
+
+Xdescribe("Sign in page", :js => true) do
 
   it("greets the user") do
     visit("/home")
@@ -34,12 +35,12 @@ describe("Sign in page") do
       expect(page).to have_content("sign in using your google account")
     end
 
-    it("allows the user to sign in using a google account"), :js => true do
+    it("allows the user to sign in using a google account") do
       click_on 'google account'
-      fill_in "email", with: ""
-      fill_in "Passwd", with: ""
-      click_on 'sign in'
-      click_on 'accept'
+      fill_in "Email", with: "jwillchem@gmail.com"
+      fill_in "Passwd", with: "@Oulu1213"
+      click_on 'signIn'
+      click_on 'submit_approve_access'
       # other code
       expect(page).to have_content("Welcome to Critique-It!")
     end
