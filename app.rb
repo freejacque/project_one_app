@@ -16,7 +16,7 @@ class App < Sinatra::Base
     enable :logging
     enable :method_override
     enable :sessions
-    set :session_secret, "whateverman"
+    # set :session_secret, "whateverman"
     uri = URI.parse(ENV["REDISTOGO_URL"])
     $redis = Redis.new({:host => uri.host,
                         :port => uri.port,
@@ -38,7 +38,7 @@ class App < Sinatra::Base
   CLIENT_SECRET = "pQ_Xf9VbZPEcN_wQ5pgNo9X1"
   EMAIL_ADDRESS = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d@developer.gserviceaccount.com"
   CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
-
+  $redis.set("users", [].to_json)
   ########################
   # Routes
   ########################
@@ -53,40 +53,28 @@ class App < Sinatra::Base
       render(:erb, :index)
   end
 
-  # post('/') do
-  #   # if
-
-  #   # else
-  #     if params[:user_password] == "password"
-  #         redirect('/home')
-  #     else
-  #         redirect('/password_error')
-  #     end
-  #     render(:erb, :index)
-  #   # end
-  # end
-
   get('/oauth_callback') do
     code  = params[:code]
     #send a post
-    if  session[:state] == params[:state]
-    response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
-                  :body => {
-                  code: code,
-                  client_id: CLIENT_ID,
-                  client_secret: CLIENT_SECRET,
-                  redirect_uri: CALLBACK_URL,
-                  grant_type: "authorization_code",
-                },
-                :headers => {
-                  "Content-Type" => "application/x-www-form-urlencoded",
-                  "Accept" => "application/json",
-                })
-      session[:access_token] = response["access_token"]
-      redirect to('/home')
-    else
-      redirect('password_error')
-    end
+    # if  session[:state] == params[:state]
+      response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
+                    :body => {
+                    code: code,
+                    client_id: CLIENT_ID,
+                    client_secret: CLIENT_SECRET,
+                    redirect_uri: CALLBACK_URL,
+                    grant_type: "authorization_code",
+                  },
+                  :headers => {
+                    "Content-Type" => "application/x-www-form-urlencoded",
+                    "Accept" => "application/json",
+                  })
+        session[:access_token] = response["access_token"]
+    # end
+      redirect to('/user')
+    # else
+      # redirect('password_error')
+    # end
   end
 
   get('/password_error') do
@@ -121,8 +109,7 @@ class App < Sinatra::Base
   #   redirect to('/sign_up/?sent=true')
   # end
 
-  get('/home') do
-    redis_index = $redis.incr("user:index")
+  get('/user') do
     url = "https://www.googleapis.com/plus/v1/people/me"
     response = HTTParty.get(url, {
                         :headers => { "Authorization" => "Bearer #{session[:access_token]}"
@@ -130,8 +117,14 @@ class App < Sinatra::Base
     session[:user_information] = response
     user = session[:user_information]["id"]
     $redis.set("#{user}_posts", [].to_json)
-    $redis.set("#{redis_index}", "#{user}" )
-    binding.pry
+    users = JSON.parse($redis.get("users"))
+    users.push(user)
+    $redis.set("users", users.to_json)
+    redirect('/home/#{user}')
+  end
+
+  get('/home/:id') do
+    @user = params[:id]
     render(:erb, :home)
   end
 
@@ -141,7 +134,6 @@ class App < Sinatra::Base
 
   post('/posts') do
     @user = session[:user_information]["id"]
-    binding.pry
     new_post = {
       title: params[:img_title],
       category: params[:img_category],
@@ -151,7 +143,7 @@ class App < Sinatra::Base
     posts = JSON.parse($redis.get("#{@user}_posts"))
     posts.push(new_post)
     $redis.set("#{@user}_posts", posts.to_json )
-    # binding.pry
+    binding.pry
     redirect to("/feed/#{@user}")
   end
 
@@ -160,4 +152,8 @@ class App < Sinatra::Base
     @feed_posts = JSON.parse($redis.get("#{user}_posts"))
     render(:erb, :feed)
   end
+
+
+
+
 end
