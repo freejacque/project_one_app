@@ -1,18 +1,24 @@
 <h2>Post a new image for critique</h2>
 
-  <form id="post_new_image" method="POST" action="/feed">
-
+  <form id="post_new_image" method="POST" action="/posts">
+    <label>User ID: </label>
+        <input type="text" id="user_id" name="user_id" />
+        <br/><br/>
     <label>Title: </label>
       <input type="text" id="img_title" name="img_title" />
       <br/><br/>
     <label>Category: </label>
-      <input type="text" id="img_category" name="img_category" />
+      <select name="img_category" id="img_category">
+        <option value="portraiture">Portrait</option>
+        <option value="landscape">Landscape</option>
+        <option value="still_life">Still Life</option>
+      </select>
       <br/><br/>
     <label>Image url: </label>
       <input type="text" id="img_url" name="img_url" />
       <br/><br/>
     <label>Description:</label>
-      <textarea form="post_new_image" id="img_description" name="img_description" rows="4" cols="50">Enter description here:</textarea>
+      <input type="text" id="img_description" name="img_description" rows="4" cols="50" />
       <br/><br/>
     <img src="img_url">
   </br></br>

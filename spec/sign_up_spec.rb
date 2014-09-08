@@ -1,6 +1,6 @@
 require 'pry'
 
-xdescribe("Sign up page", :js => true) do
+describe("Sign up page", :js => true) do
 
  # context 'on /sign_up' do
  #    before(:each) do
