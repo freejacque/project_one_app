@@ -1,0 +1,20 @@
+<h2>Post a new image for critique</h2>
+
+  <form id="post_new_image" method="POST" action="/feed">
+
+    <label>Title: </label>
+      <input type="text" id="img_title" name="img_title" />
+      <br/><br/>
+    <label>Category: </label>
+      <input type="text" id="img_category" name="img_category" />
+      <br/><br/>
+    <label>Image url: </label>
+      <input type="text" id="img_url" name="img_url" />
+      <br/><br/>
+    <label>Description:</label>
+      <textarea form="post_new_image" id="img_description" name="img_description" rows="4" cols="50">Enter description here:</textarea>
+      <br/><br/>
+    <img src="img_url">
+  </br></br>
+    <input type="submit" name="submit" id="submit">
+  </form>

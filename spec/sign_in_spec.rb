@@ -1,7 +1,7 @@
 require 'pry'
 
 
-Xdescribe("Sign in page", :js => true) do
+xdescribe("Sign in page", :js => true) do
 
   it("greets the user") do
     visit("/home")
