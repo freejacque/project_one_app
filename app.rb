@@ -38,7 +38,7 @@ class App < Sinatra::Base
   CLIENT_SECRET = "pQ_Xf9VbZPEcN_wQ5pgNo9X1"
   EMAIL_ADDRESS = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d@developer.gserviceaccount.com"
   CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
-  $redis.set("users", [].to_json)
+  $redis.setnx("users", [].to_json)
   ########################
   # Routes
   ########################
@@ -71,7 +71,7 @@ class App < Sinatra::Base
                   })
         session[:access_token] = response["access_token"]
     # end
-      redirect to('/user')
+      redirect to('/home')
     # else
       # redirect('password_error')
     # end
@@ -109,17 +109,18 @@ class App < Sinatra::Base
   #   redirect to('/sign_up/?sent=true')
   # end
 
-  get('/user') do
+  get('/home') do
     url = "https://www.googleapis.com/plus/v1/people/me"
     response = HTTParty.get(url, {
                         :headers => { "Authorization" => "Bearer #{session[:access_token]}"
                       }})
-    session[:user_information] = response
-    user = session[:user_information]["id"]
-    $redis.set("#{user}_posts", [].to_json)
+    @user_information = response
+    user = @user_information["id"]
+    $redis.setnx("#{user}_posts", [].to_json)
     users = JSON.parse($redis.get("users"))
     users.push(user)
     $redis.set("users", users.to_json)
+    binding.pry
     redirect('/home/#{user}')
   end
 
@@ -133,7 +134,7 @@ class App < Sinatra::Base
   end
 
   post('/posts') do
-    @user = session[:user_information]["id"]
+    @user = params[:user_id]
     new_post = {
       title: params[:img_title],
       category: params[:img_category],
