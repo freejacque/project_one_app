@@ -138,8 +138,8 @@ class App < Sinatra::Base
   end
 
   get('/posts/:user') do
-    user = params[:user]
-    posts = JSON.parse($redis.get("#{user}_posts"))
+    @user = params[:user]
+    @posts = JSON.parse($redis.get("#{@user}_posts"))
     render(:erb, :posts)
   end
 

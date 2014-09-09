@@ -1,17 +1,22 @@
 <h2>These are your posts</h2>
 
 <ol>
-    <% @posts.reverse.each_with_index do |post, index| %>
-      <li>
-      <p>Title: <%= post["title"].capitalize %></p>
-      </br>
-      <p>Category: <%= post["category"].capitalize %></p>
-      </br>
-      <p>Image: <a href="<%= post["url"] %>"><img src="<%= post["url"] %>" width="300px" /></a></p>
-      </br>
-      <p>Description: <%= post["description"] %></p>
-      </br>
-    </li>
+    <% @posts.reverse.each_with_index do |post, index|
+      user = @user
+      pic_id = index
+      %>
+      <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
+        <li>
+          <p>Title: <%= post["title"].capitalize %></p>
+          </br>
+          <p>Category: <%= post["category"].capitalize %></p>
+          </br>
+          <p>Image: <a href="<%= post["url"] %>"><img src="<%= post["url"] %>" width="300px" /></a></p>
+          </br>
+          <p>Description: <%= post["description"] %></p>
+          </br>
+        </li>
+      </a>
     <% end %>
 
 
