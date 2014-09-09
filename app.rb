@@ -8,6 +8,7 @@ require 'uri'
 
 class App < Sinatra::Base
 
+
   ########################
   # Configuration
   ########################
@@ -15,7 +16,9 @@ class App < Sinatra::Base
   configure do
     enable :logging
     enable :method_override
-    enable :sessions
+    use Rack::Session::Cookie, :key => 'rack.session',
+                               :path => '/',
+                               :secret => 'whateverman'
     # set :session_secret, "whateverman"
     uri = URI.parse(ENV["REDISTOGO_URL"])
     $redis = Redis.new({:host => uri.host,
@@ -50,13 +53,14 @@ class App < Sinatra::Base
       state           = SecureRandom.urlsafe_base64
       session[:state] = state
       @url            = "#{base_url}?response_type=#{response_type}&scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&client_id=#{CLIENT_ID}&approval_prompt=auto"
+      binding.pry
       render(:erb, :index)
   end
 
   get('/oauth_callback') do
     code  = params[:code]
     #send a post
-    # if  session[:state] == params[:state]
+    if  session[:state] == params[:state]
       response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
                     :body => {
                     code: code,
@@ -70,11 +74,17 @@ class App < Sinatra::Base
                     "Accept" => "application/json",
                   })
         session[:access_token] = response["access_token"]
-    # end
+        binding.pry
+    end
       redirect to('/home')
     # else
       # redirect('password_error')
     # end
+  end
+
+  get('/logout') do
+    session[:access_token] = nil
+    redirect to('/')
   end
 
   get('/password_error') do
@@ -108,8 +118,14 @@ class App < Sinatra::Base
   #   $redis.set("user:#{index}", new_user.to_json)
   #   redirect to('/sign_up/?sent=true')
   # end
+  get('/home/:id') do
+    @user = params[:id]
+    binding.pry
+    render(:erb, :home)
+  end
 
   get('/home') do
+    binding.pry
     url = "https://www.googleapis.com/plus/v1/people/me"
     response = HTTParty.get(url, {
                         :headers => { "Authorization" => "Bearer #{session[:access_token]}"
@@ -121,13 +137,9 @@ class App < Sinatra::Base
     users.push(user)
     $redis.set("users", users.to_json)
     binding.pry
-    redirect('/home/#{user}')
+    redirect("/home/#{user}")
   end
 
-  get('/home/:id') do
-    @user = params[:id]
-    render(:erb, :home)
-  end
 
   get('/posts/new') do
     render(:erb, :new_post_form)
@@ -144,7 +156,6 @@ class App < Sinatra::Base
     posts = JSON.parse($redis.get("#{@user}_posts"))
     posts.push(new_post)
     $redis.set("#{@user}_posts", posts.to_json )
-    binding.pry
     redirect to("/feed/#{@user}")
   end
 

@@ -1,3 +1,20 @@
 <h2>This is your feed!</h2>
 
-<%= @feed_posts %>
+<ol>
+    <% @feed_posts.each_with_index do |post, index| %>
+      <li>
+      <p>Title: <%= post["title"].capitalize %></p>
+      </br>
+      <p>Category: <%= post["category"] %></p>
+      </br>
+      <p>Image: <img src="<%= post["url"] %>" width="300px"></p>
+      </br>
+      <p>Description: <%= post["description"] %></p>
+      </br>
+    </li>
+    <% end %>
+
+
+
+
+</ol>
