@@ -1,20 +1,21 @@
 <h2>This is your feed!</h2>
 
 <ol>
-    <% @feed_posts.each_with_index do |post, index| %>
-      <li>
-      <p>Title: <%= post["title"].capitalize %></p>
-      </br>
-      <p>Category: <%= post["category"] %></p>
-      </br>
-      <p>Image: <img src="<%= post["url"] %>" width="300px"></p>
-      </br>
-      <p>Description: <%= post["description"] %></p>
-      </br>
-    </li>
+    <% @feed_posts.reverse.first(10).each_with_index do |post, index|
+      user = @user
+      pic_id = index
+      %>
+      <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
+        <div class="box" >
+          <li>
+              <p>Title: <%= post["title"].capitalize %></p>
+              </br>
+              <p>Category: <%= post["category"].capitalize %></p>
+              </br>
+              <p>Image: <a href="<%= post["url"] %>"><img src="<%= post["url"] %>" width="300px" ></a></p>
+              </br>
+          </li>
+        </div>
+      </a>
     <% end %>
-
-
-
-
 </ol>

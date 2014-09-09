@@ -52,15 +52,18 @@ class App < Sinatra::Base
       scope           = "openid email profile".gsub(' ','%20')
       state           = SecureRandom.urlsafe_base64
       session[:state] = state
-      @url            = "#{base_url}?response_type=#{response_type}&scope=#{scope}&state=#{state}&redirect_uri=#{CALLBACK_URL}&client_id=#{CLIENT_ID}&approval_prompt=auto"
-      binding.pry
+      @url            = "#{base_url}?response_type=#{response_type}" +
+                        "&scope=#{scope}&state=#{state}" +
+                        "&redirect_uri=#{CALLBACK_URL}" +
+                        "&client_id=#{CLIENT_ID}" +
+                        "&approval_prompt=auto"
       render(:erb, :index)
   end
 
   get('/oauth_callback') do
     code  = params[:code]
     #send a post
-    if  session[:state] == params[:state]
+    # if  session[:state] == params[:state]
       response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
                     :body => {
                     code: code,
@@ -74,8 +77,7 @@ class App < Sinatra::Base
                     "Accept" => "application/json",
                   })
         session[:access_token] = response["access_token"]
-        binding.pry
-    end
+    # end
       redirect to('/home')
     # else
       # redirect('password_error')
@@ -91,52 +93,22 @@ class App < Sinatra::Base
     render(:erb, :password_error)
   end
 
-  # get('/sign_up/') do
-  #   if params[:sent] == "true"
-  #     @sign_up_success_message = true
-  #   end
-  #   render(:erb, :sign_up)
-  # end
-
-  # get('/sign_up') do
-  #     render(:erb, :sign_up)
-  # end
-
-  # post('/sign_up') do
-  #   # $redis.flushdb
-  #   index = $redis.incr("user:index")
-  #   new_user = {
-  #     # index: index,
-  #     user: params[:user_id],
-  #     email: params[:user_email],
-  #     password: params[:user_password],
-  #     profile_pic: params[:profile_pic_url],
-  #   }
-  #   @user = params[:user_id]
-  #   @password = params[:user_password]
-  #   $redis.set("#{@user}_posts", [].to_json)
-  #   $redis.set("user:#{index}", new_user.to_json)
-  #   redirect to('/sign_up/?sent=true')
-  # end
   get('/home/:id') do
     @user = params[:id]
-    binding.pry
     render(:erb, :home)
   end
 
   get('/home') do
-    binding.pry
     url = "https://www.googleapis.com/plus/v1/people/me"
     response = HTTParty.get(url, {
                         :headers => { "Authorization" => "Bearer #{session[:access_token]}"
                       }})
     @user_information = response
     user = @user_information["id"]
-    $redis.setnx("#{user}_posts", [].to_json)
+    $redis.setnx("#{@user}_posts", [].to_json)
     users = JSON.parse($redis.get("users"))
     users.push(user)
     $redis.set("users", users.to_json)
-    binding.pry
     redirect("/home/#{user}")
   end
 
@@ -160,12 +132,25 @@ class App < Sinatra::Base
   end
 
   get('/feed/:user') do
-    user = params[:user]
-    @feed_posts = JSON.parse($redis.get("#{user}_posts"))
+    @user = params[:user]
+    @feed_posts = JSON.parse($redis.get("#{@user}_posts"))
     render(:erb, :feed)
   end
 
+  get('/posts/:user') do
+    user = params[:user]
+    posts = JSON.parse($redis.get("#{user}_posts"))
+    render(:erb, :posts)
+  end
 
+  get('/each_post/:id') do
+    # binding.pry
+    index = params[:id].to_s[-1].to_i
+    user = params[:id].to_s.slice(0..-2)
+    @posts = JSON.parse($redis.get("#{user}_posts"))
+    @selected_post = @posts.reverse[index]
+    render(:erb, :each_post)
+  end
 
 
 end
