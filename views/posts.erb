@@ -5,10 +5,12 @@
       user = @user
       pic_id = index
       %>
-      <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
+
         <div id="posts">
         <li>
-          <a href="<%= post["url"] %>"><img src="<%= post["url"] %>" width="300px" /></a>
+          <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
+          <img src="<%= post["url"] %>" width="300px" />
+          </a>
           </br>
           <p>Image Title: <%= post["title"].capitalize %></p>
           <p>Category: <%= post["category"].capitalize %></p>
@@ -16,7 +18,6 @@
           </br>
         </li>
       </div>
-      </a>
     <% end %>
 </ol>
 
