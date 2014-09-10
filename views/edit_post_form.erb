@@ -4,6 +4,8 @@
     <label>User ID: <%= @post_to_edit["id"] %></label>
         <input type="hidden" id="user_id" name="user_id" value="<%= @post_to_edit["id"] %>"/>
         <br/><br/>
+      <img src="<%= @post_to_edit["url"] %>" width="500px" />
+    </br></br>
     <label>Title: </label>
       <input type="text" id="img_title" name="img_title" value="<%= @post_to_edit["title"] %>" />
       <br/><br/>
@@ -20,8 +22,6 @@
     <label>Description:</label>
       <input type="text" id="img_description" name="img_description" value="<%= @post_to_edit["description"] %>" />
       <br/><br/>
-    <img src="<%= @post_to_edit["url"] %>" width="500px" />
-  </br></br>
     <input type="hidden" name="_method" value="PUT">
     <input type="submit" value="Submit">
   </form>
