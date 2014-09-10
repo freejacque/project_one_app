@@ -186,7 +186,8 @@ class App < Sinatra::Base
     @post_to_edit["url"] = params["img_url"]
     @post_to_edit["description"] = params["img_description"]
     @posts.reverse[index] = @post_to_edit
-    $redis.set("#{user}_posts, @posts.to_json")
+    $redis.set("#{user}_posts", @posts.to_json)
+    binding.pry
     redirect to("/posts/#{user}")
   end
 
