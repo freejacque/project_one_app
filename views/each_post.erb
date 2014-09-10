@@ -3,12 +3,13 @@
       </br>
       </br>
       <p>Title: <%= @selected_post["title"].capitalize %></p>
-      </br>
       <p>Category: <%= @selected_post["category"].capitalize %></p>
-      </br>
       <p>Description: <%= @selected_post["description"] %></p>
       </br>
 
+      <form action="/edit_post/<%= @id %>" method="GET">
+        <input type="submit" value="Edit Post">
+      </form>
       <a href="/edit_post/<%= @id %>">Edit</a>
       </br>
 
