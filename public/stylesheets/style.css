@@ -1,7 +1,7 @@
 h1 {
   font-family: 'Cinzel', serif;
   font-size: 48px;
-  padding-left: 3cm;
+  padding-left: 2.5cm;
 }
 
 h2 {
@@ -32,7 +32,7 @@ img {
   border-radius: 20px;
   border-color: white;
   border-width: 10px;
-  box-shadow: 0px 0px 5px #fff;
+  box-shadow: 5px 5px 5px #fff;
 }
 
 form {
@@ -45,4 +45,11 @@ form {
 
 a {
   text-decoration: none;
+}
+
+li {
+  font-size: 25;
+  font-family: 'Josefin Slab', serif;
+  font-style: normal;
+  font-weight: 400;
 }

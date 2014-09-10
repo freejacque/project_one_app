@@ -8,12 +8,10 @@
       <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
         <div id="posts">
         <li>
-          <p>Title: <%= post["title"].capitalize %></p>
-          </br>
-          <p>Category: <%= post["category"].capitalize %></p>
-          </br>
           <a href="<%= post["url"] %>"><img src="<%= post["url"] %>" width="300px" /></a>
           </br>
+          <p>Image Title: <%= post["title"].capitalize %></p>
+          <p>Category: <%= post["category"].capitalize %></p>
           <p>Description: <%= post["description"] %></p>
           </br>
         </li>
@@ -27,5 +25,7 @@
       <form action="/home/:id" method="GET">
         <input type="submit" value="Go to your Critique-It! Homepage">
       </form>
+    </br>
+    </br>
     </center>
 </footer>
