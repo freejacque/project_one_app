@@ -20,7 +20,7 @@ class App < Sinatra::Base
     # use Rack::Session::Cookie, :key => 'rack.session',
     #                            :path => '/',
     #                            :secret => 'whateverman'
-    set :session_secret, "whateverman"
+    set :session_secret, 'whateverman'
     uri = URI.parse(ENV["REDISTOGO_URL"])
     $redis = Redis.new({:host => uri.host,
                         :port => uri.port,

@@ -7,7 +7,7 @@ gem 'redis',  '3.1.0'
 gem 'httparty'
 gem 'awesome_print', '1.2.0'
 gem 'json'
-gem 'selenium-webdriver', '~> 2.42.0'
+
 
 # only used in development locally
 group :development do
@@ -22,4 +22,5 @@ end
 group :test do
   gem 'rspec', '~> 3.0.0'
   gem 'capybara', '~> 2.4.1'
+  gem 'selenium-webdriver', '~> 2.42.0'
 end
