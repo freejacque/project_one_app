@@ -41,7 +41,11 @@ class App < Sinatra::Base
   CLIENT_ID     = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d.apps.googleusercontent.com"
   CLIENT_SECRET = "pQ_Xf9VbZPEcN_wQ5pgNo9X1"
   EMAIL_ADDRESS = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d@developer.gserviceaccount.com"
-  CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
+  if ENV["RACK_ENV"] == "development"
+    CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
+  else
+    CALLBACK_URL = "http://powerful-reef-4488.herokuapp.com/oauth_callback"
+  end
   # $redis.setnx("users", [].to_json)
   ########################
   # Routes
