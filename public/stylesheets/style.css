@@ -4,8 +4,9 @@ h1 {
 }
 
 h2 {
-  font-size: 25px;
+  font-size: 30px;
   text-align: center;
+  color: white;
 }
 body {
   background-color: #808080;
@@ -13,7 +14,7 @@ body {
 }
 
 p {
-  font-size: 25px;
+  font-size: 18px;
   color: white;
 }
 
@@ -27,6 +28,8 @@ img {
   border-radius: 20px;
   border-color: white;
   border-width: 10px;
+  box-shadow: 0px 0px 5px #fff;
+}
 }
 .posts {
   border-radius: 15px;
