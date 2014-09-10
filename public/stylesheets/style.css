@@ -4,6 +4,9 @@ h1 {
 }
 
 h2 {
+  font-family: 'Josefin Slab', serif;
+  font-style: normal;
+  font-weight: 400;
   font-size: 30px;
   text-align: center;
   color: white;

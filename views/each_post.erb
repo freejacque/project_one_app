@@ -3,22 +3,23 @@
       <center><h3>Title: <%= @selected_post["title"].capitalize %></h3></center>
     </br>
       <center><a href="<%= @selected_post["url"] %>"><img src="<%= @selected_post["url"] %>" width="600px" /></a></center>
-      </br>
-      </br>
+    </br>
+    </br>
       <p>Category: <%= @selected_post["category"].capitalize %></p>
       <p>Description: <%= @selected_post["description"] %></p>
-      </br>
+    </br>
 
       <form action="/edit_post/<%= @id %>" method="GET">
         <input type="submit" value="Edit Post">
       </form>
-      <a href="/edit_post/<%= @id %>">Edit</a>
-      </br>
+    </br>
 
 
       <form action="/each_post/<%= @id %>" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" value="Delete Post">
       </form>
+    </br>
+    </br>
 
 
