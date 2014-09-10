@@ -6,6 +6,7 @@
       pic_id = index
       %>
       <a href="/each_post/<%= "#{user}" %><%= "#{pic_id}" %>" >
+        <div id="posts">
         <li>
           <p>Title: <%= post["title"].capitalize %></p>
           </br>
@@ -16,6 +17,7 @@
           <p>Description: <%= post["description"] %></p>
           </br>
         </li>
+      </div>
       </a>
     <% end %>
 
