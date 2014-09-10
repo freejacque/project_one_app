@@ -4,7 +4,7 @@ h1 {
 }
 
 h2 {
-  font-size:
+  font-size: 25px;
 }
 body {
   background-color: #CCCCCC;
@@ -15,5 +15,10 @@ p {
   font-family: font-family: 'Josefin Slab', serif;
   font-size: 15px;
 
+}
 
+header {
+  background-color: #5F5FBF;
+  width: 100%;
+  text-align: left;
 }
