@@ -10,7 +10,7 @@ $redis.flushdb
 $redis.set("105862615635090070587_posts",[
     { "title"=>"Man smoking",
       "category"=>"portraiture",
-      "url"=>"http://www.landscapephotography.info/wpcontent/uploads/2014/05/street_photography_portrait.jpg",
+      "url"=>"http://www.ephotozine.com/articles/10-top-portrait-photography-tips-17935/images/street_photography_portrait.jpg",
       "description"=>"black & white"
     },
     {
