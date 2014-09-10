@@ -9,5 +9,13 @@
       <p>Description: <%= @selected_post["description"] %></p>
       </br>
 
+      <a href="/each_post/<% @selected_post %>">Edit</a>
+      </br>
+
+
+      <form action="/each_post/<%= @id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="Delete Post">
+      </form>
 
 

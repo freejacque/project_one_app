@@ -16,10 +16,11 @@ class App < Sinatra::Base
   configure do
     enable :logging
     enable :method_override
-    use Rack::Session::Cookie, :key => 'rack.session',
-                               :path => '/',
-                               :secret => 'whateverman'
-    # set :session_secret, "whateverman"
+    enable :sessions
+    # use Rack::Session::Cookie, :key => 'rack.session',
+    #                            :path => '/',
+    #                            :secret => 'whateverman'
+    set :session_secret, "whateverman"
     uri = URI.parse(ENV["REDISTOGO_URL"])
     $redis = Redis.new({:host => uri.host,
                         :port => uri.port,
@@ -62,6 +63,7 @@ class App < Sinatra::Base
 
   get('/oauth_callback') do
     code  = params[:code]
+    puts session[:marp]
     #send a post
     # if  session[:state] == params[:state]
       response = HTTParty.post("https://accounts.google.com/o/oauth2/token",
@@ -103,6 +105,7 @@ class App < Sinatra::Base
     response = HTTParty.get(url, {
                         :headers => { "Authorization" => "Bearer #{session[:access_token]}"
                       }})
+    puts session[:marp]
     @user_information = response
     user = @user_information["id"]
     $redis.setnx("#{@user}_posts", [].to_json)
@@ -144,7 +147,7 @@ class App < Sinatra::Base
   end
 
   get('/each_post/:id') do
-    # binding.pry
+    @id = params[:id]
     index = params[:id].to_s[-1].to_i
     user = params[:id].to_s.slice(0..-2)
     @posts = JSON.parse($redis.get("#{user}_posts"))
@@ -152,5 +155,15 @@ class App < Sinatra::Base
     render(:erb, :each_post)
   end
 
+  delete('/each_post/:id') do
+    @id = params[:id]
+    index = params[:id].to_s[-1].to_i
+    user = params[:id].to_s.slice(0..-2)
+    @posts = JSON.parse($redis.get("#{user}_posts"))
+    post_to_delete = @posts.reverse[index]
+    @posts.delete(post_to_delete)
+    $redis.set("#{user}_posts", @posts.to_json)
+    redirect to("/posts/#{user}")
+  end
 
 end
