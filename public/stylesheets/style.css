@@ -8,13 +8,12 @@ h2 {
   font-family: 'Josefin Slab', serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 35px;
   text-align: center;
   color: white;
 }
 body {
   background-color: #808080;
-  padding-left: 2cm;
 }
 
 p {
@@ -32,13 +31,13 @@ img {
   border-radius: 20px;
   border-color: white;
   border-width: 10px;
-  box-shadow: 5px 5px 5px #fff;
+  box-shadow: 5px #fff;
 }
 
 form {
 
 }
-}
+
 .posts {
   border-radius: 15px;
 }
