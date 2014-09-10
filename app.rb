@@ -42,7 +42,7 @@ class App < Sinatra::Base
   CLIENT_SECRET = "pQ_Xf9VbZPEcN_wQ5pgNo9X1"
   EMAIL_ADDRESS = "594095716528-a8lib8gqpnp6o00k23n58c01ev8r5b3d@developer.gserviceaccount.com"
   CALLBACK_URL  = "http://127.0.0.1:9393/oauth_callback"
-  $redis.setnx("users", [].to_json)
+  # $redis.setnx("users", [].to_json)
   ########################
   # Routes
   ########################

@@ -85,7 +85,7 @@ $redis.set("105862615635090070587_posts",[
     ].to_json)
 
 
-
+$redis.set("users", [].to_json)
 
 
 
