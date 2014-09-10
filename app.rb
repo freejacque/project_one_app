@@ -92,12 +92,12 @@ class App < Sinatra::Base
   end
 
   get('/password_error') do
-    render(:erb, :password_error)
+    render(:erb, :password_error, :layout)
   end
 
   get('/home/:id') do
     @user = params[:id]
-    render(:erb, :home)
+    render(:erb, :home, :layout)
   end
 
   get('/home') do
@@ -117,7 +117,7 @@ class App < Sinatra::Base
 
 
   get('/posts/new') do
-    render(:erb, :new_post_form)
+    render(:erb, :new_post_form, :layout)
   end
 
   post('/posts') do
@@ -137,13 +137,13 @@ class App < Sinatra::Base
   get('/feed/:user') do
     @user = params[:user]
     @feed_posts = JSON.parse($redis.get("#{@user}_posts"))
-    render(:erb, :feed)
+    render(:erb, :feed, :layout)
   end
 
   get('/posts/:user') do
     @user = params[:user]
     @posts = JSON.parse($redis.get("#{@user}_posts"))
-    render(:erb, :posts)
+    render(:erb, :posts, :layout)
   end
 
   get('/each_post/:id') do
@@ -152,7 +152,7 @@ class App < Sinatra::Base
     user = params[:id].to_s.slice(0..-2)
     @posts = JSON.parse($redis.get("#{user}_posts"))
     @selected_post = @posts.reverse[index]
-    render(:erb, :each_post)
+    render(:erb, :each_post, :layout)
   end
 
   delete('/each_post/:id') do
@@ -172,7 +172,7 @@ class App < Sinatra::Base
     user = params[:id].to_s.slice(0..-2)
     @posts = JSON.parse($redis.get("#{user}_posts"))
     @post_to_edit = @posts.reverse[index]
-    render(:erb, :edit_post_form)
+    render(:erb, :edit_post_form, :layout)
   end
 
   put('/edit_post/:id') do
