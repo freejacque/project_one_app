@@ -166,4 +166,28 @@ class App < Sinatra::Base
     redirect to("/posts/#{user}")
   end
 
+  get('/edit_post/:id') do
+    @id = params[:id]
+    index = params[:id].to_s[-1].to_i
+    user = params[:id].to_s.slice(0..-2)
+    @posts = JSON.parse($redis.get("#{user}_posts"))
+    @post_to_edit = @posts.reverse[index]
+    render(:erb, :edit_post_form)
+  end
+
+  put('/edit_post/:id') do
+    @id = params[:id]
+    index = params[:id].to_s[-1].to_i
+    user = params[:id].to_s.slice(0..-2)
+    @posts = JSON.parse($redis.get("#{user}_posts"))
+    @post_to_edit = @posts.reverse[index]
+    @post_to_edit["title"] = params["img_title"]
+    @post_to_edit["category"] = params["img_category"]
+    @post_to_edit["url"] = params["img_url"]
+    @post_to_edit["description"] = params["img_description"]
+    @posts.reverse[index] = @post_to_edit
+    $redis.set("#{user}_posts, @posts.to_json")
+    redirect to("/posts/#{user}")
+  end
+
 end
