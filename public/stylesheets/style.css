@@ -26,7 +26,12 @@ header {
 img {
   border-radius: 20px;
   border-color: white;
+  border-width: 10px;
 }
 .posts {
+  border-radius: 15px;
+}
 
+a {
+  text-decoration: none;
 }
