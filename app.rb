@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'httparty'
-require 'pry'
+require 'pry' if ENV["RACK_ENV"] == "development"
 require 'redis'
 require 'json'
 require 'uri'
