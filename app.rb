@@ -97,7 +97,7 @@ class App < Sinatra::Base
 
   get('/home/:id') do
     @user = params[:id]
-    render(:erb, :home, :layout)
+    render(:erb, :home)
   end
 
   get('/home') do
@@ -117,7 +117,7 @@ class App < Sinatra::Base
 
 
   get('/posts/new') do
-    render(:erb, :new_post_form, :layout)
+    render(:erb, :new_post_form)
   end
 
   post('/posts') do
@@ -137,13 +137,13 @@ class App < Sinatra::Base
   get('/feed/:user') do
     @user = params[:user]
     @feed_posts = JSON.parse($redis.get("#{@user}_posts"))
-    render(:erb, :feed, :layout)
+    render(:erb, :feed)
   end
 
   get('/posts/:user') do
     @user = params[:user]
     @posts = JSON.parse($redis.get("#{@user}_posts"))
-    render(:erb, :posts, :layout)
+    render(:erb, :posts)
   end
 
   get('/each_post/:id') do
@@ -152,7 +152,7 @@ class App < Sinatra::Base
     user = params[:id].to_s.slice(0..-2)
     @posts = JSON.parse($redis.get("#{user}_posts"))
     @selected_post = @posts.reverse[index]
-    render(:erb, :each_post, :layout)
+    render(:erb, :each_post)
   end
 
   delete('/each_post/:id') do
@@ -172,7 +172,7 @@ class App < Sinatra::Base
     user = params[:id].to_s.slice(0..-2)
     @posts = JSON.parse($redis.get("#{user}_posts"))
     @post_to_edit = @posts.reverse[index]
-    render(:erb, :edit_post_form, :layout)
+    render(:erb, :edit_post_form)
   end
 
   put('/edit_post/:id') do
@@ -187,7 +187,6 @@ class App < Sinatra::Base
     @post_to_edit["description"] = params["img_description"]
     @posts.reverse[index] = @post_to_edit
     $redis.set("#{user}_posts", @posts.to_json)
-    binding.pry
     redirect to("/posts/#{user}")
   end
 
