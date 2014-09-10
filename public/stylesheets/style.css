@@ -1,7 +1,7 @@
 h1 {
   font-family: 'Cinzel', serif;
   font-size: 48px;
-  padding-left: 10cm;
+  padding-left: 3cm;
 }
 
 h2 {
@@ -14,7 +14,7 @@ h2 {
 }
 body {
   background-color: #808080;
-
+  padding-left: 2cm;
 }
 
 p {
