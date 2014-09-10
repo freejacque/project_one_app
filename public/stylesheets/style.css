@@ -9,13 +9,12 @@ h2 {
 }
 body {
   background-color: #CCCCCC;
-  font-color: white;
 
 }
 
 p {
   font-size: 15px;
-
+  color: white;
 }
 
 header {
