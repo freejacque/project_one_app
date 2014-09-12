@@ -24,10 +24,12 @@
 
 <footer>
     <center>
-      <form action="/home/:id" method="GET">
+      <% user = @user %>
+      <form action="/home/<%= "#{user}" %>" method="GET">
         <input type="submit" value="Go to your Critique-It! Homepage">
       </form>
     </br>
     </br>
     </center>
 </footer>
+

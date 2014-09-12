@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.1.2"
 
-gem 'sinatra', '1.4.5'
+gem 'sinatra', '1.4.5', require: 'sinatra/base'
 gem 'redis',  '3.1.0'
 gem 'httparty'
 gem 'awesome_print', '1.2.0'

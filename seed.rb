@@ -1,7 +1,12 @@
 require 'json'
 require 'redis'
+require 'uri'
 
-$redis = Redis.new(url: ENV["REDISTOGO_URL"])
+uri = URI.parse(ENV["REDISTOGO_URL"])
+$redis = Redis.new({:host => uri.host,
+                    :port => uri.port,
+                    :password => uri.password,
+                    :db => 1})
 
 # Clear out any old data
 $redis.flushdb
