@@ -135,7 +135,7 @@ class App < ApplicationController
     @post_to_edit["url"]         = params["img_url"]
     @post_to_edit["description"] = params["img_description"]
     @posts.reverse[@index]        = @post_to_edit
-    redis_set("#{@user}_posts", @posts)
+    $redis.set("#{@user}_posts", @posts)
     redirect to("/posts/#{@user}")
   end
 
