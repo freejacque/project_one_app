@@ -1,5 +1,7 @@
 #Critique-It!
 
+[1]: http://i59.tinypic.com/2s0d4e0.png
+
 ###Overview
 Critique-It! is a microblog that allows users to post photographs and have them critiqued by other photographers. It was designed to provide photographer/artists who have left art school an online class critique experience.
 </br>
@@ -12,7 +14,7 @@ Critique-It! is a microblog that allows users to post photographs and have them 
 	<li> HTTParty
 	<li> Awesome_Print 1.2.0
 	<li> JSON
-	<li>Authentication through GooglePlus
+	<li> Authentication through GooglePlus
 </ul>
 ###Instructions
 To use the GooglePlus authorization, you will need to register as a developer and obtain Google authrization keys.
